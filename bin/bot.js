@@ -1,15 +1,18 @@
 'use strict';
 
-var Bot = require('slackbots');
+var Bot = require('../lib/toolbot.js');
 
 // create a bot
 var settings = {
     token: process.env.BOT_API_KEY,
-    name: 'toolbot'
+    name: process.env.BOT_NAME
 };
+
 var bot = new Bot(settings);
 
-bot.on('start', function() {
-    bot.postMessageToChannel('general', 'Hello channel!');
-    bot.postMessageToUser('jer_', 'Hello user!');
-});
+bot.run();
+
+
+//bot.on('start', function() {
+    //bot.postMessageToUser('jer_', 'Hello user!');
+//});

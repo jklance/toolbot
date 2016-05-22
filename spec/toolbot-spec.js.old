@@ -1,0 +1,16 @@
+var toolbot = require ('../lib/toolbot.js');
+
+
+var bot=null;
+
+beforeEach(function() {
+    bot = new toolbot();
+});
+
+describe("Toolbot's base library exists", function() {
+    it("can load the library", function() {
+        expect(bot).toBeDefined();
+    });
+});
+
+        
