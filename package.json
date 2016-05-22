@@ -1,0 +1,15 @@
+{
+  "name": "toolbot",
+  "version": "1.0.0",
+  "description": "Toolkit Bot for Slack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jer Lance",
+  "license": "ISC",
+  "dependencies": {
+    "slackbots": "^0.5.1",
+    "sqlite": "^2.0.2"
+  }
+}
