@@ -1,10 +1,14 @@
 var toolbot = require ('../lib/toolbot.js');
 
-
 var bot=null;
 
 beforeEach(function() {
-    bot = new toolbot();
+    var settings = {
+        token: process.env.BOT_API_KEY,
+        name: process.env.BOT_NAME
+    };
+
+    bot = new toolbot(settings);
 });
 
 describe("Toolbot's base library exists", function() {
@@ -13,4 +17,67 @@ describe("Toolbot's base library exists", function() {
     });
 });
 
-        
+describe("Toolbot has access to its config file", function() {
+    it("can load dictionary API info", function() {
+        expect(bot.dictionaryAPI).toBeDefined();
+    });
+
+    it("can load dictionary API format from config", function() {
+        expect(bot.dictionaryAPI.returnFormat).toBe("xml");
+    });
+});
+
+describe("Toolbot's dictionary lookup works", function() {
+    it("selects the word from a message starting with the .define keyword", function() {
+        expect(bot._prepDefineMessage(".define test")).toBe("test");
+    });
+
+    it("formulates correct headers", function() {
+        expect(bot._getDefinitionHeaders().Accept).toBe("application/json");
+    });
+
+    it("gets an entry URL for valid word 'test'", function() {
+        bot._getDefinitionHeaders();
+        bot.dictionaryAPI.word = "test";
+        bot.dictionaryAPI.definitionURL = '';
+        var expectedResult = "http://api.collinsdictionary.com/api/v1/dictionaries/english/entries/test_1";
+
+        runs(function() {
+            bot._defineWord();
+        }, 5000);
+        waitsFor(function() {
+            return bot.dictionaryAPI.definitionURL;
+        }, "url should be set", 7500);
+        runs(function() {
+            expect(bot.dictionaryAPI.definitionURL).toBe(expectedResult);
+        });
+    });
+
+    it("retrieves the word definition from a valid URL", function() {
+        bot._getDefinitionHeaders();
+        bot.dictionaryAPI.definitionMessage = '';
+        bot.dictionaryAPI.definitionURL = "";
+
+        runs(function() {
+            bot._getWordDefinition();
+        }, 3000);
+        waitsFor(function() {
+            return bot.dictionaryAPI.definitionMessage;
+        }, "message should be set", 5000);
+        runs(function() {
+            expect(bot.dictionaryAPI.definitionMessage).toBe(expectedResult);
+        });
+    });
+    
+    it("responds with a definition for valid word 'test'", function() {
+        var message = { text: ".define test" };
+        expect(bot._handleDefineKeyword(message)).toBeDefined();
+    });
+
+    it("responds with an error for invalid word 'fliaspsdfas'", function() {
+        var message = { text: ".define fliaspsdfas" };
+        expect(bot._handleDefineKeyword(message)).toBeDefined();
+    });
+
+
+});

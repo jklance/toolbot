@@ -1,7 +1,9 @@
-var bot = require('../bin/bot.js');
+var Bot = require('../bin/bot.js');
+
+console.log(settings);
 
 describe("Accepts API key from command line", function() {
     it("accepts an API key using 'BOT_API_KEY={key}'", function() {
-        expect(process.env.BOT_API_KEY).not.toBe(null);
+        expect(Bot.settings.env.BOT_API_KEY).not.toBe(null);
     });
 });

@@ -12,7 +12,6 @@ var bot = new Bot(settings);
 
 bot.run();
 
-
 //bot.on('start', function() {
     //bot.postMessageToUser('jer_', 'Hello user!');
 //});

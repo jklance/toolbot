@@ -1,0 +1,14 @@
+{
+    "dictionaryAPI": {
+        "apiUrlBase":   "api.collinsdictionary.com",
+        "apiKey":       "",
+        "appHost":      "tmawsm.slack.com",
+        "languageCode": "english",
+        "returnFormat": "xml",
+        "formatAccept": "application/json"
+    }
+
+
+
+
+}
